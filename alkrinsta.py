@@ -85,7 +85,7 @@ class Instabrute():
 			sess.proxies = { "http": self.CurrentProxy, "https": self.CurrentProxy }
 
 		#build requests headers
-		sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrftoken' : '',  's_network' : '', 'ds_user_id' : ''})
+		sess.cookies.update ({'sessionid' : '', 'mid' : '', 'ig_pr' : '1', 'ig_vw' : '1920', 'csrf_token' : '',  's_network' : '', 'ds_user_id' : ''})
 		sess.headers.update({
 			'UserAgent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
 			'x-instagram-ajax':'1',
@@ -103,11 +103,11 @@ class Instabrute():
 
 		#Update token after enter to the site
 		r = sess.get('https://www.instagram.com/') 
-		sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
+		sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrf_token']})
 
 		#Update token after login to the site 
 		r = sess.post('https://www.instagram.com/accounts/login/ajax/', data={'username':self.username, 'password':password}, allow_redirects=True)
-		sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrftoken']})
+		sess.headers.update({'X-CSRFToken' : r.cookies.get_dict()['csrf_token']})
 		
 		#parse response
 		data = json.loads(r.text)
